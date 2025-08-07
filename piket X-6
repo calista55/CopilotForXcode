@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Piket Kelas</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f0f0f0;
+      padding: 20px;
+    }
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    select, input[type="file"], button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Form Piket Kelas</h2>
+    <form id="piketForm">
+      <label for="hari">Hari Piket:</label>
+      <select id="hari" required>
+        <option value="">-- Pilih Hari --</option>
+        <option value="senin">Senin</option>
+        <option value="selasa">Selasa</option>
+        <option value="rabu">Rabu</option>
+        <option value="kamis">Kamis</option>
+        <option value="jumat">Jumat</option>
+      </select>
+
+      <label for="nama">Nama:</label>
+      <select id="nama" required>
+        <option value="">-- Pilih Hari Dulu --</option>
+      </select>
+
+      <label for="bukti">Upload Foto Bukti Piket:</label>
+      <input type="file" id="bukti" accept="image/*" required />
+
+      <button type="submit">Kirim Bukti</button>
+    </form>
+  </div>
+
+  <script>
+    const namaSelect = document.getElementById('nama');
+    const hariSelect = document.getElementById('hari');
+
+    const dataPiket = {
+      senin: ["yasmin", "salomita", "rania", "hanifa", "devin", "marverian", "krisna", "jelita"],
+      selasa: ["habsi", "fahri", "aisyah", "cantika", "fardan", "indika", "beryl"],
+      rabu: ["sivia", "safa", "nabila", "sheva", "afiqa", "raditya", "makhrus"],
+      kamis: ["marla", "rohma", "dinda", "dewi", "abiyi", "naufal", "ibrahim"],
+      jumat: ["dea", "ziah", "cikal", "calista", "atta", "lysandra", "rendy"]
+    };
+
+    hariSelect.addEventListener('change', function () {
+      const hari = this.value;
+      namaSelect.innerHTML = '';
+
+      if (dataPiket[hari]) {
+        dataPiket[hari].forEach(nama => {
+          const option = document.createElement('option');
+          option.value = nama;
+          option.textContent = nama;
+          namaSelect.appendChild(option);
+        });
+      } else {
+        const option = document.createElement('option');
+        option.value = '';
+        option.textContent = '-- Pilih Hari Dulu --';
+        namaSelect.appendChild(option);
+      }
+    });
+
+    document.getElementById('piketForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const hari = hariSelect.value;
+      const nama = namaSelect.value;
+      const bukti = document.getElementById('bukti').files[0];
+
+      if (!hari || !nama || !bukti) {
+        alert('Lengkapi semua data dulu ya sayang');
+        return;
+      }
+
+      // Sementara hanya simulasi
+      alert(`✅ ${nama} sudah piket hari ${hari.toUpperCase()}!\nBukti berhasil dikirim 🧹`);
+      this.reset();
+    });
+  </script>
+</body>
+</html>
